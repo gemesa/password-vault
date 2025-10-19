@@ -129,7 +129,7 @@ struct ContentView: View {
                 }
                 .buttonStyle(.bordered)
                 .tint(.mint)
-                .disabled(state != .loggedIn && password.isEmpty)
+                .disabled(password.isEmpty)
             }
             .alert(alertMessage, isPresented: $showAlert) {
                 Button("OK") {}
