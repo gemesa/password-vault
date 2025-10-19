@@ -39,3 +39,10 @@ $ swift-format -i -r password-vault/
 ```
 
 Alternatively, use `Editor` --> `Structure` --> `Format File with 'swift-format'` or `Ctrl + Shift + I`.
+
+### Lint
+
+```
+$ brew install swiftlint
+$ swiftlint --strict password-vault/
+```
