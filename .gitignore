@@ -3,6 +3,11 @@ build/
 *.log
 .DS_Store
 
+# O-MVLL
+cfg.py
+omvll.yml
+omvll.log
+
 # Created by https://www.toptal.com/developers/gitignore/api/xcode
 # Edit at https://www.toptal.com/developers/gitignore?templates=xcode
 
