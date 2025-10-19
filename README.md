@@ -31,6 +31,21 @@ Simple iOS and macOS password vault.
 $ xcodebuild build -scheme password-vault -derivedDataPath build -destination 'platform=iOS Simulator,arch=arm64,name=iPhone 17' -quiet
 ```
 
+### Run
+
+```
+$ xcrun simctl boot "iPhone 17"
+$ open -a Simulator
+$ xcrun simctl install "iPhone 17" build/Build/Products/Debug-iphonesimulator/password-vault.app
+$ xcrun simctl launch "iPhone 17" gemesa.password-vault
+```
+
+### Terminate
+
+```
+$ xcrun simctl terminate "iPhone 17" gemesa.password-vault
+```
+
 ### Format
 
 ```
