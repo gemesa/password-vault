@@ -23,3 +23,8 @@ jobs:
         run: |
           brew install swiftlint
           swiftlint --strict password-vault/
+
+      - name: Codespell
+        run: |
+          brew install codespell
+          codespell
