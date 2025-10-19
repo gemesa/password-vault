@@ -6,17 +6,8 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		951A49672EA2CBE200E8E9AD /* cfg.py in Resources */ = {isa = PBXBuildFile; fileRef = 951A49652EA2CBE200E8E9AD /* cfg.py */; };
-		951A49682EA2CBE200E8E9AD /* omvll.yml in Resources */ = {isa = PBXBuildFile; fileRef = 951A49662EA2CBE200E8E9AD /* omvll.yml */; };
-		951A49712EA2CCFF00E8E9AD /* omvll.log in Resources */ = {isa = PBXBuildFile; fileRef = 951A49702EA2CCFF00E8E9AD /* omvll.log */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
 		951A49532EA2CAE400E8E9AD /* password-vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "password-vault.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		951A49652EA2CBE200E8E9AD /* cfg.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = cfg.py; sourceTree = "<group>"; };
-		951A49662EA2CBE200E8E9AD /* omvll.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = omvll.yml; sourceTree = "<group>"; };
-		951A49702EA2CCFF00E8E9AD /* omvll.log */ = {isa = PBXFileReference; lastKnownFileType = text; path = omvll.log; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -41,9 +32,6 @@
 		951A494A2EA2CAE400E8E9AD = {
 			isa = PBXGroup;
 			children = (
-				951A49702EA2CCFF00E8E9AD /* omvll.log */,
-				951A49652EA2CBE200E8E9AD /* cfg.py */,
-				951A49662EA2CBE200E8E9AD /* omvll.yml */,
 				951A49552EA2CAE400E8E9AD /* password-vault */,
 				951A49542EA2CAE400E8E9AD /* Products */,
 			);
@@ -122,9 +110,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				951A49672EA2CBE200E8E9AD /* cfg.py in Resources */,
-				951A49682EA2CBE200E8E9AD /* omvll.yml in Resources */,
-				951A49712EA2CCFF00E8E9AD /* omvll.log in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
