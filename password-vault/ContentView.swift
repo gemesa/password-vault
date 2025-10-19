@@ -80,7 +80,7 @@ struct ContentView: View {
                         }
                     } else {
                         print(
-                            "Something went wrong while reseting the vault password"
+                            "Something went wrong while resetting the vault password"
                         )
                     }
                 }
