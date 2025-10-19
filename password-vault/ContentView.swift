@@ -2,12 +2,12 @@ import CryptoKit
 import SwiftUI
 
 struct ContentView: View {
-    enum states {
+    enum States {
         case loggedIn
         case loggedOut
         case resettingPassword
     }
-    @State private var state = states.loggedOut
+    @State private var state = States.loggedOut
     @State var showAlert = false
     @State var alertMessage = ""
     @State var password = ""

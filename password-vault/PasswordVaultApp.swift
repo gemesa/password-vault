@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct password_vaultApp: App {
+struct PasswordVaultApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
