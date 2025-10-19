@@ -108,8 +108,7 @@ struct ContentView: View {
                 Button(buttonText) {
                     defer { password = "" }
                     if hasPassword {
-                        if MasterPasswordManager.verifyMasterPassword(password)
-                        {
+                        if MasterPasswordManager.verifyMasterPassword(password) {
                             print("Master password accepted")
                             state = .loggedIn
                         } else {

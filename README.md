@@ -30,3 +30,12 @@ Simple iOS and macOS password vault.
 ```
 $ xcodebuild build -scheme password-vault -derivedDataPath build -destination 'platform=iOS Simulator,arch=arm64,name=iPhone 17' -quiet
 ```
+
+### Format
+
+```
+$ brew install swift-format
+$ swift-format -i -r password-vault/
+```
+
+Alternatively, use `Editor` --> `Structure` --> `Format File with 'swift-format'` or `Ctrl + Shift + I`.
