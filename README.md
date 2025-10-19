@@ -6,6 +6,10 @@ Simple iOS and macOS password vault.
 
 - Apple Keychain integration for managing the master password
 
+## TODO
+
+- Stored password management
+
 ## Requirements
 
 - iOS 26.0+
