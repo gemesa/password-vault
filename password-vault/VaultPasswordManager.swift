@@ -18,7 +18,7 @@ struct VaultPasswordManager {
         }
 
         guard KeychainManager.save(salt, account: "vaultPasswordSalt") else {
-            let _ = KeychainManager.delete(account: "vaultPasswordHash")
+            _ = KeychainManager.delete(account: "vaultPasswordHash")
             return false
         }
 
