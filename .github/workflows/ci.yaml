@@ -1,4 +1,4 @@
-name: Build
+name: CI
 on: [push]
 jobs:
   build:
@@ -13,3 +13,7 @@ jobs:
             -scheme password-vault \
             -derivedDataPath build \
             -destination 'platform=iOS Simulator,name=iPhone 17'
+
+      - name: Format
+        run: |
+          swift-format lint --recursive --strict password-vault/
