@@ -4,7 +4,7 @@ Simple iOS and macOS password vault.
 
 ## Features
 
-- Apple Keychain integration for managing the master password
+- Apple Keychain integration for managing the vault password
 
 ## TODO
 

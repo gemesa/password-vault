@@ -17,7 +17,7 @@ struct ContentView: View {
     }
 
     var hasPassword: Bool {
-        MasterPasswordManager.hasMasterPassword()
+        VaultPasswordManager.hasVaultPassword()
     }
 
     var body: some View {
@@ -62,25 +62,25 @@ struct ContentView: View {
                     .font(.title2)
                     .foregroundColor(.white)
 
-                SecureField("Master password", text: $password)
+                SecureField("Vault password", text: $password)
                     .frame(maxWidth: 300)
                     .textFieldStyle(.roundedBorder)
                 Button("Set new password") {
                     defer { password = "" }
-                    if MasterPasswordManager.deleteMasterPassword() {
-                        print("Master password deleted")
-                        if MasterPasswordManager.setMasterPassword(password) {
-                            print("Master password successfully reset")
+                    if VaultPasswordManager.deleteVaultPassword() {
+                        print("Vault password deleted")
+                        if VaultPasswordManager.setVaultPassword(password) {
+                            print("Vault password successfully reset")
                             print("Logging out")
                             state = .loggedOut
                         } else {
                             print(
-                                "Something went wrong while resetting the master password"
+                                "Something went wrong while resetting the vault password"
                             )
                         }
                     } else {
                         print(
-                            "Something went wrong while reseting the master password"
+                            "Something went wrong while reseting the vault password"
                         )
                     }
                 }
@@ -101,28 +101,28 @@ struct ContentView: View {
                     .font(.title2)
                     .foregroundColor(.white)
 
-                SecureField("Master password", text: $password)
+                SecureField("Vault password", text: $password)
                     .frame(maxWidth: 300)
                     .textFieldStyle(.roundedBorder)
 
                 Button(buttonText) {
                     defer { password = "" }
                     if hasPassword {
-                        if MasterPasswordManager.verifyMasterPassword(password) {
-                            print("Master password accepted")
+                        if VaultPasswordManager.verifyVaultPassword(password) {
+                            print("Vault password accepted")
                             state = .loggedIn
                         } else {
-                            print("Master password is incorrect")
+                            print("Vault password is incorrect")
                             alertMessage = "Wrong password"
                             showAlert = true
                         }
                     } else {
-                        if MasterPasswordManager.setMasterPassword(password) {
-                            print("Master password successfully set")
+                        if VaultPasswordManager.setVaultPassword(password) {
+                            print("Vault password successfully set")
                             state = .loggedIn
                         } else {
                             print(
-                                "Something went wrong while setting the master password"
+                                "Something went wrong while setting the vault password"
                             )
                         }
                     }
