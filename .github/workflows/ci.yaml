@@ -16,4 +16,5 @@ jobs:
 
       - name: Format
         run: |
+          brew install swift-format
           swift-format lint --recursive --strict password-vault/
