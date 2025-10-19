@@ -86,6 +86,7 @@ struct ContentView: View {
                 }
                 .buttonStyle(.bordered)
                 .tint(.mint)
+                .disabled(password.isEmpty)
             }
         }
     }
