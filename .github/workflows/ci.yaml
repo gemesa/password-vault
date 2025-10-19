@@ -18,3 +18,8 @@ jobs:
         run: |
           brew install swift-format
           swift-format lint --recursive --strict password-vault/
+
+      - name: lint
+        run: |
+          brew install swiftlint
+          swiftlint --strict password-vault/
