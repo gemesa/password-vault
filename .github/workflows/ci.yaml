@@ -14,12 +14,12 @@ jobs:
             -derivedDataPath build \
             -destination 'platform=iOS Simulator,name=iPhone 17'
 
-      - name: Format
+      - name: Format Swift
         run: |
           brew install swift-format
           swift-format lint --recursive --strict password-vault/
 
-      - name: lint
+      - name: Lint Swift
         run: |
           brew install swiftlint
           swiftlint --strict password-vault/
