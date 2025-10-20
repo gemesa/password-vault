@@ -2,17 +2,20 @@ import CryptoKit
 import SwiftUI
 
 struct ContentView: View {
+
     enum States {
         case loggedIn
         case loggedOut
         case resettingPassword
     }
+
     enum AlertMessage: String {
         case wrongPassword = "Wrong password"
         case weakPassword = "Weak password"
         case resetError = "Something went wrong while resetting the vault password"
         case setError = "Something went wrong while setting the vault password"
     }
+
     @State private var state = States.loggedOut
     @State private var showAlert = false
     @State private var alertMessage = ""
