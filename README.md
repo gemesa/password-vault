@@ -5,6 +5,7 @@ Simple iOS and macOS password vault.
 ## Features
 
 - Apple Keychain integration for managing the vault password
+- Basic vault password validation
 
 ## TODO
 

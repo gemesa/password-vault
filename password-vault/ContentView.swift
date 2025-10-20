@@ -69,14 +69,19 @@ struct ContentView: View {
                     defer { password = "" }
                     if VaultPasswordManager.deleteVaultPassword() {
                         print("Vault password deleted")
-                        if VaultPasswordManager.setVaultPassword(password) {
-                            print("Vault password successfully reset")
-                            print("Logging out")
-                            state = .loggedOut
+                        if PasswordValidator.isPasswordValid(password) {
+                            if VaultPasswordManager.setVaultPassword(password) {
+                                print("Vault password successfully reset")
+                                print("Logging out")
+                                state = .loggedOut
+                            } else {
+                                print(
+                                    "Something went wrong while resetting the vault password"
+                                )
+                            }
                         } else {
-                            print(
-                                "Something went wrong while resetting the vault password"
-                            )
+                            alertMessage = "Weak password"
+                            showAlert = true
                         }
                     } else {
                         print(
@@ -87,6 +92,9 @@ struct ContentView: View {
                 .buttonStyle(.bordered)
                 .tint(.mint)
                 .disabled(password.isEmpty)
+            }
+            .alert(alertMessage, isPresented: $showAlert) {
+                Button("OK") {}
             }
         }
     }
@@ -118,13 +126,18 @@ struct ContentView: View {
                             showAlert = true
                         }
                     } else {
-                        if VaultPasswordManager.setVaultPassword(password) {
-                            print("Vault password successfully set")
-                            state = .loggedIn
+                        if PasswordValidator.isPasswordValid(password) {
+                            if VaultPasswordManager.setVaultPassword(password) {
+                                print("Vault password successfully set")
+                                state = .loggedIn
+                            } else {
+                                print(
+                                    "Something went wrong while setting the vault password"
+                                )
+                            }
                         } else {
-                            print(
-                                "Something went wrong while setting the vault password"
-                            )
+                            alertMessage = "Weak password"
+                            showAlert = true
                         }
                     }
                 }
