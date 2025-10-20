@@ -67,13 +67,13 @@ struct ContentView: View {
                     .textFieldStyle(.roundedBorder)
                 Button("Set new password") {
                     defer { password = "" }
-                    guard VaultPasswordManager.deleteVaultPassword() else {
-                        print("Something went wrong while resetting the vault password")
-                        return
-                    }
                     guard PasswordValidator.isPasswordValid(password) else {
                         alertMessage = "Weak password"
                         showAlert = true
+                        return
+                    }
+                    guard VaultPasswordManager.deleteVaultPassword() else {
+                        print("Something went wrong while resetting the vault password")
                         return
                     }
                     guard VaultPasswordManager.setVaultPassword(password) else {
