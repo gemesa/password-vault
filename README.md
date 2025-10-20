@@ -13,7 +13,7 @@ Simple iOS and macOS password vault.
 ## Requirements
 
 - iOS 26.0+
-- macos 15.6+
+- macOS 15.6+
 - Xcode 26.0.1+
 
 ## Preview
