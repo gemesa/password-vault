@@ -41,6 +41,44 @@ struct ContentView: View {
         }
     }
 
+    private func handleLogin() {
+        defer { password = "" }
+        if hasPassword {
+            guard VaultPasswordManager.verifyVaultPassword(password) else {
+                showAlert(.wrongPassword)
+                return
+            }
+            state = .loggedIn
+            return
+        }
+        guard PasswordValidator.isPasswordValid(password) else {
+            showAlert(.weakPassword)
+            return
+        }
+        guard VaultPasswordManager.setVaultPassword(password) else {
+            showAlert(.setError)
+            return
+        }
+        state = .loggedIn
+    }
+
+    private func handleReset() {
+        defer { password = "" }
+        guard PasswordValidator.isPasswordValid(password) else {
+            showAlert(.weakPassword)
+            return
+        }
+        guard VaultPasswordManager.deleteVaultPassword() else {
+            showAlert(.resetError)
+            return
+        }
+        guard VaultPasswordManager.setVaultPassword(password) else {
+            showAlert(.resetError)
+            return
+        }
+        state = .loggedOut
+    }
+
     private var mainView: some View {
         ZStack {
             Color(.darkGray)
@@ -74,26 +112,10 @@ struct ContentView: View {
                 SecureField("Vault password", text: $password)
                     .frame(maxWidth: 300)
                     .textFieldStyle(.roundedBorder)
-                Button("Set new password") {
-                    defer { password = "" }
-                    guard PasswordValidator.isPasswordValid(password) else {
-                        showAlert(.weakPassword)
-                        return
-                    }
-                    guard VaultPasswordManager.deleteVaultPassword() else {
-                        showAlert(.resetError)
-                        return
-                    }
-                    guard VaultPasswordManager.setVaultPassword(password) else {
-                        showAlert(.resetError)
-                        return
-                    }
-                    state = .loggedOut
-
-                }
-                .buttonStyle(.bordered)
-                .tint(.mint)
-                .disabled(password.isEmpty)
+                Button("Set new password", action: handleReset)
+                    .buttonStyle(.bordered)
+                    .tint(.mint)
+                    .disabled(password.isEmpty)
             }
         }
         .alert(alertMessage, isPresented: $showAlert) {
@@ -116,29 +138,10 @@ struct ContentView: View {
                     .frame(maxWidth: 300)
                     .textFieldStyle(.roundedBorder)
 
-                Button(buttonText) {
-                    defer { password = "" }
-                    if hasPassword {
-                        guard VaultPasswordManager.verifyVaultPassword(password) else {
-                            showAlert(.wrongPassword)
-                            return
-                        }
-                        state = .loggedIn
-                        return
-                    }
-                    guard PasswordValidator.isPasswordValid(password) else {
-                        showAlert(.weakPassword)
-                        return
-                    }
-                    guard VaultPasswordManager.setVaultPassword(password) else {
-                        showAlert(.setError)
-                        return
-                    }
-                    state = .loggedIn
-                }
-                .buttonStyle(.bordered)
-                .tint(.mint)
-                .disabled(password.isEmpty)
+                Button(buttonText, action: handleLogin)
+                    .buttonStyle(.bordered)
+                    .tint(.mint)
+                    .disabled(password.isEmpty)
             }
             .alert(alertMessage, isPresented: $showAlert) {
                 Button("OK") {}
