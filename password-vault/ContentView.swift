@@ -14,9 +14,9 @@ struct ContentView: View {
         case setError = "Something went wrong while setting the vault password"
     }
     @State private var state = States.loggedOut
-    @State var showAlert = false
-    @State var alertMessage = ""
-    @State var password = ""
+    @State private var showAlert = false
+    @State private var alertMessage = ""
+    @State private var password = ""
 
     var buttonText: String {
         hasPassword ? "Unlock" : "Set password"
