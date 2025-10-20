@@ -2,6 +2,10 @@ import CryptoKit
 import SwiftUI
 
 struct ContentView: View {
+    private func showAlert(_ message: AlertMessage) {
+        alertMessage = message.rawValue
+        showAlert = true
+    }
     enum States {
         case loggedIn
         case loggedOut
@@ -73,18 +77,15 @@ struct ContentView: View {
                 Button("Set new password") {
                     defer { password = "" }
                     guard PasswordValidator.isPasswordValid(password) else {
-                        alertMessage = AlertMessage.weakPassword.rawValue
-                        showAlert = true
+                        showAlert(.weakPassword)
                         return
                     }
                     guard VaultPasswordManager.deleteVaultPassword() else {
-                        alertMessage = AlertMessage.resetError.rawValue
-                        showAlert = true
+                        showAlert(.resetError)
                         return
                     }
                     guard VaultPasswordManager.setVaultPassword(password) else {
-                        alertMessage = AlertMessage.resetError.rawValue
-                        showAlert = true
+                        showAlert(.resetError)
                         return
                     }
                     state = .loggedOut
@@ -119,21 +120,18 @@ struct ContentView: View {
                     defer { password = "" }
                     if hasPassword {
                         guard VaultPasswordManager.verifyVaultPassword(password) else {
-                            alertMessage = AlertMessage.wrongPassword.rawValue
-                            showAlert = true
+                            showAlert(.wrongPassword)
                             return
                         }
                         state = .loggedIn
                         return
                     }
                     guard PasswordValidator.isPasswordValid(password) else {
-                        alertMessage = AlertMessage.weakPassword.rawValue
-                        showAlert = true
+                        showAlert(.weakPassword)
                         return
                     }
                     guard VaultPasswordManager.setVaultPassword(password) else {
-                        alertMessage = AlertMessage.setError.rawValue
-                        showAlert = true
+                        showAlert(.setError)
                         return
                     }
                     state = .loggedIn
