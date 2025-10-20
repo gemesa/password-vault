@@ -24,6 +24,18 @@ jobs:
           brew install swiftlint
           swiftlint --strict password-vault/
 
+      - name: Format Objective-C
+        run: |
+          brew install clang-format
+          find password-vault/ -name "*.m" -o -name "*.h" | xargs clang-format --dry-run --Werror
+
+      - name: Analyze Objective-C
+        run: |
+          xcodebuild analyze \
+            -scheme password-vault \
+            -destination 'platform=iOS Simulator,name=iPhone 17' \
+            GCC_TREAT_WARNINGS_AS_ERRORS=YES
+
       - name: Codespell
         run: |
           brew install codespell
