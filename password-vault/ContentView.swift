@@ -73,11 +73,13 @@ struct ContentView: View {
                         return
                     }
                     guard VaultPasswordManager.deleteVaultPassword() else {
-                        print("Something went wrong while resetting the vault password")
+                        alertMessage = "Something went wrong while resetting the vault password"
+                        showAlert = true
                         return
                     }
                     guard VaultPasswordManager.setVaultPassword(password) else {
-                        print("Something went wrong while resetting the vault password")
+                        alertMessage = "Something went wrong while resetting the vault password"
+                        showAlert = true
                         return
                     }
                     state = .loggedOut
@@ -126,7 +128,8 @@ struct ContentView: View {
                         return
                     }
                     guard VaultPasswordManager.setVaultPassword(password) else {
-                        print("Something went wrong while setting the vault password")
+                        alertMessage = "Something went wrong while setting the vault password"
+                        showAlert = true
                         return
                     }
                     state = .loggedIn
