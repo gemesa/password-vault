@@ -100,20 +100,25 @@ struct ContentView: View {
         }
     }
 
-    private var resetView: some View {
+    @ViewBuilder
+    private func passwordEntryView(
+        title: String,
+        buttonTitle: String,
+        action: @escaping () -> Void
+    ) -> some View {
         ZStack {
             Color(.darkGray)
                 .ignoresSafeArea()
             VStack(spacing: 20) {
-
-                Text("Enter new password")
+                Text(title)
                     .font(.title2)
                     .foregroundColor(.white)
 
                 SecureField("Vault password", text: $password)
                     .frame(maxWidth: 300)
                     .textFieldStyle(.roundedBorder)
-                Button("Set new password", action: handleReset)
+
+                Button(buttonTitle, action: action)
                     .buttonStyle(.bordered)
                     .tint(.mint)
                     .disabled(password.isEmpty)
@@ -124,30 +129,20 @@ struct ContentView: View {
         }
     }
 
+    private var resetView: some View {
+        passwordEntryView(
+            title: "Enter new password",
+            buttonTitle: "Set new password",
+            action: handleReset
+        )
+    }
+
     private var loginView: some View {
-
-        ZStack {
-            Color(.darkGray)
-                .ignoresSafeArea()
-            VStack(spacing: 20) {
-
-                Text("Enter password")
-                    .font(.title2)
-                    .foregroundColor(.white)
-
-                SecureField("Vault password", text: $password)
-                    .frame(maxWidth: 300)
-                    .textFieldStyle(.roundedBorder)
-
-                Button(buttonText, action: handleLogin)
-                    .buttonStyle(.bordered)
-                    .tint(.mint)
-                    .disabled(password.isEmpty)
-            }
-            .alert(alertMessage, isPresented: $showAlert) {
-                Button("OK") {}
-            }
-        }
+        passwordEntryView(
+            title: "Enter password",
+            buttonTitle: buttonText,
+            action: handleLogin
+        )
     }
 }
 
