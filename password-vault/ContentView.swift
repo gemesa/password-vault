@@ -67,27 +67,24 @@ struct ContentView: View {
                     .textFieldStyle(.roundedBorder)
                 Button("Set new password") {
                     defer { password = "" }
-                    if VaultPasswordManager.deleteVaultPassword() {
-                        print("Vault password deleted")
-                        if PasswordValidator.isPasswordValid(password) {
-                            if VaultPasswordManager.setVaultPassword(password) {
-                                print("Vault password successfully reset")
-                                print("Logging out")
-                                state = .loggedOut
-                            } else {
-                                print(
-                                    "Something went wrong while resetting the vault password"
-                                )
-                            }
-                        } else {
-                            alertMessage = "Weak password"
-                            showAlert = true
-                        }
-                    } else {
-                        print(
-                            "Something went wrong while resetting the vault password"
-                        )
+                    guard VaultPasswordManager.deleteVaultPassword() else {
+                        print("Something went wrong while resetting the vault password")
+                        return
                     }
+                    print("Vault password deleted")
+                    guard PasswordValidator.isPasswordValid(password) else {
+                        alertMessage = "Weak password"
+                        showAlert = true
+                        return
+                    }
+                    guard VaultPasswordManager.setVaultPassword(password) else {
+                        print("Something went wrong while resetting the vault password")
+                        return
+                    }
+                    print("Vault password successfully reset")
+                    print("Logging out")
+                    state = .loggedOut
+
                 }
                 .buttonStyle(.bordered)
                 .tint(.mint)
@@ -117,29 +114,27 @@ struct ContentView: View {
                 Button(buttonText) {
                     defer { password = "" }
                     if hasPassword {
-                        if VaultPasswordManager.verifyVaultPassword(password) {
-                            print("Vault password accepted")
-                            state = .loggedIn
-                        } else {
+                        guard VaultPasswordManager.verifyVaultPassword(password) else {
                             print("Vault password is incorrect")
                             alertMessage = "Wrong password"
                             showAlert = true
+                            return
                         }
-                    } else {
-                        if PasswordValidator.isPasswordValid(password) {
-                            if VaultPasswordManager.setVaultPassword(password) {
-                                print("Vault password successfully set")
-                                state = .loggedIn
-                            } else {
-                                print(
-                                    "Something went wrong while setting the vault password"
-                                )
-                            }
-                        } else {
-                            alertMessage = "Weak password"
-                            showAlert = true
-                        }
+                        print("Vault password accepted")
+                        state = .loggedIn
+                        return
                     }
+                    guard PasswordValidator.isPasswordValid(password) else {
+                        alertMessage = "Weak password"
+                        showAlert = true
+                        return
+                    }
+                    guard VaultPasswordManager.setVaultPassword(password) else {
+                        print("Something went wrong while setting the vault password")
+                        return
+                    }
+                    print("Vault password successfully set")
+                    state = .loggedIn
                 }
                 .buttonStyle(.bordered)
                 .tint(.mint)
