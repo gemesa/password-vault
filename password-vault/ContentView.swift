@@ -2,10 +2,6 @@ import CryptoKit
 import SwiftUI
 
 struct ContentView: View {
-    private func showAlert(_ message: AlertMessage) {
-        alertMessage = message.rawValue
-        showAlert = true
-    }
     enum States {
         case loggedIn
         case loggedOut
@@ -39,6 +35,11 @@ struct ContentView: View {
         default:
             loginView
         }
+    }
+
+    private func showAlert(_ message: AlertMessage) {
+        alertMessage = message.rawValue
+        showAlert = true
     }
 
     private func handleLogin() {
