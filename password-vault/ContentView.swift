@@ -13,7 +13,7 @@ struct ContentView: View {
     @State var password = ""
 
     var buttonText: String {
-        return hasPassword ? "Unlock" : "Set password"
+        hasPassword ? "Unlock" : "Set password"
     }
 
     var hasPassword: Bool {
