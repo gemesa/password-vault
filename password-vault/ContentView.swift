@@ -87,9 +87,9 @@ struct ContentView: View {
                 .tint(.mint)
                 .disabled(password.isEmpty)
             }
-            .alert(alertMessage, isPresented: $showAlert) {
-                Button("OK") {}
-            }
+        }
+        .alert(alertMessage, isPresented: $showAlert) {
+            Button("OK") {}
         }
     }
 
