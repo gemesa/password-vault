@@ -61,3 +61,15 @@ Alternatively, use `Editor` --> `Structure` --> `Format File with 'swift-format'
 $ brew install swiftlint
 $ swiftlint --strict password-vault/
 ```
+
+### Format Objective-C
+
+```
+$ find password-vault/ -name "*.m" -o -name "*.h" | xargs clang-format -i
+```
+
+### Lint Objective-C
+
+```
+$ xcodebuild analyze -scheme password-vault -destination 'platform=iOS Simulator,name=iPhone 17' -quiet GCC_TREAT_WARNINGS_AS_ERRORS=YES
+```
