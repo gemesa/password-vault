@@ -7,6 +7,12 @@ struct ContentView: View {
         case loggedOut
         case resettingPassword
     }
+    enum AlertMessage: String {
+        case wrongPassword = "Wrong password"
+        case weakPassword = "Weak password"
+        case resetError = "Something went wrong while resetting the vault password"
+        case setError = "Something went wrong while setting the vault password"
+    }
     @State private var state = States.loggedOut
     @State var showAlert = false
     @State var alertMessage = ""
@@ -67,17 +73,17 @@ struct ContentView: View {
                 Button("Set new password") {
                     defer { password = "" }
                     guard PasswordValidator.isPasswordValid(password) else {
-                        alertMessage = "Weak password"
+                        alertMessage = AlertMessage.weakPassword.rawValue
                         showAlert = true
                         return
                     }
                     guard VaultPasswordManager.deleteVaultPassword() else {
-                        alertMessage = "Something went wrong while resetting the vault password"
+                        alertMessage = AlertMessage.resetError.rawValue
                         showAlert = true
                         return
                     }
                     guard VaultPasswordManager.setVaultPassword(password) else {
-                        alertMessage = "Something went wrong while resetting the vault password"
+                        alertMessage = AlertMessage.resetError.rawValue
                         showAlert = true
                         return
                     }
@@ -113,7 +119,7 @@ struct ContentView: View {
                     defer { password = "" }
                     if hasPassword {
                         guard VaultPasswordManager.verifyVaultPassword(password) else {
-                            alertMessage = "Wrong password"
+                            alertMessage = AlertMessage.wrongPassword.rawValue
                             showAlert = true
                             return
                         }
@@ -121,12 +127,12 @@ struct ContentView: View {
                         return
                     }
                     guard PasswordValidator.isPasswordValid(password) else {
-                        alertMessage = "Weak password"
+                        alertMessage = AlertMessage.weakPassword.rawValue
                         showAlert = true
                         return
                     }
                     guard VaultPasswordManager.setVaultPassword(password) else {
-                        alertMessage = "Something went wrong while setting the vault password"
+                        alertMessage = AlertMessage.setError.rawValue
                         showAlert = true
                         return
                     }
