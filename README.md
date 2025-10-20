@@ -46,7 +46,7 @@ $ xcrun simctl launch "iPhone 17" gemesa.password-vault
 $ xcrun simctl terminate "iPhone 17" gemesa.password-vault
 ```
 
-### Format
+### Format Swift
 
 ```
 $ brew install swift-format
@@ -55,7 +55,7 @@ $ swift-format -i -r password-vault/
 
 Alternatively, use `Editor` --> `Structure` --> `Format File with 'swift-format'` or `Ctrl + Shift + I`.
 
-### Lint
+### Lint Swift
 
 ```
 $ brew install swiftlint
