@@ -37,7 +37,6 @@ struct ContentView: View {
                 .ignoresSafeArea()
             VStack(spacing: 20) {
                 Button("Logout") {
-                    print("Logging out")
                     state = .loggedOut
                 }
                 .buttonStyle(.bordered)
@@ -114,7 +113,6 @@ struct ContentView: View {
                     defer { password = "" }
                     if hasPassword {
                         guard VaultPasswordManager.verifyVaultPassword(password) else {
-                            print("Vault password is incorrect")
                             alertMessage = "Wrong password"
                             showAlert = true
                             return
