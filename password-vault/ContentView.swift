@@ -71,7 +71,6 @@ struct ContentView: View {
                         print("Something went wrong while resetting the vault password")
                         return
                     }
-                    print("Vault password deleted")
                     guard PasswordValidator.isPasswordValid(password) else {
                         alertMessage = "Weak password"
                         showAlert = true
@@ -81,8 +80,6 @@ struct ContentView: View {
                         print("Something went wrong while resetting the vault password")
                         return
                     }
-                    print("Vault password successfully reset")
-                    print("Logging out")
                     state = .loggedOut
 
                 }
@@ -120,7 +117,6 @@ struct ContentView: View {
                             showAlert = true
                             return
                         }
-                        print("Vault password accepted")
                         state = .loggedIn
                         return
                     }
@@ -133,7 +129,6 @@ struct ContentView: View {
                         print("Something went wrong while setting the vault password")
                         return
                     }
-                    print("Vault password successfully set")
                     state = .loggedIn
                 }
                 .buttonStyle(.bordered)
