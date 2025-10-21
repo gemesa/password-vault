@@ -6,10 +6,11 @@ Simple iOS and macOS password vault with components in both Swift and Objective-
 
 - Apple Keychain integration for managing the vault password (Swift)
 - Basic vault password validation (Objective-C)
+- Add password functionality for stored password management (Objective-C)
 
 ## TODO
 
-- Stored password management
+- Delete password functionality (Objective-C)
 
 ## Requirements
 
@@ -21,7 +22,9 @@ Simple iOS and macOS password vault with components in both Swift and Objective-
 
 <p align="center">
   <img src="images/login-view.png" width="400" />
-  <img src="images/main-view.png" width="400" />
+  <img src="images/main-view-empty.png" width="400" />
+  <img src="images/main-view-sheet.png" width="400" />
+  <img src="images/main-view-non-empty.png" width="400" />
 </p>
 
 ## Command cheatsheet

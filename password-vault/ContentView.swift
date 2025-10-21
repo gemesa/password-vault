@@ -14,8 +14,11 @@ struct ContentView: View {
         case weakPassword = "Weak password"
         case resetError = "Something went wrong while resetting the vault password"
         case setError = "Something went wrong while setting the vault password"
+        case loadVaultError = "Failed to load vault"
     }
 
+    @StateObject private var vaultViewModel = VaultViewModel()
+    @State private var showAddSheet = false
     @State private var state = States.loggedOut
     @State private var showAlert = false
     @State private var alertMessage = ""
@@ -52,6 +55,12 @@ struct ContentView: View {
                 showAlert(.wrongPassword)
                 return
             }
+
+            guard vaultViewModel.loadVault() else {
+                showAlert(.loadVaultError)
+                return
+            }
+
             state = .loggedIn
             return
         }
@@ -84,22 +93,44 @@ struct ContentView: View {
     }
 
     private var mainView: some View {
-        ZStack {
-            Color(.darkGray)
-                .ignoresSafeArea()
-            VStack(spacing: 20) {
-                Button("Logout") {
-                    state = .loggedOut
-                }
-                .buttonStyle(.bordered)
-                .tint(.orange)
+        NavigationStack {
+            ZStack {
+                Color(.darkGray)
+                    .ignoresSafeArea()
 
-                Button("Reset") {
-                    state = .resettingPassword
+                if vaultViewModel.entries.isEmpty {
+                    emptyStateView
+                } else {
+                    passwordListView
                 }
-                .buttonStyle(.bordered)
-                .tint(.red)
+
             }
+            .navigationTitle("Vault")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showAddSheet = true
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                }
+                ToolbarItem(placement: .topBarLeading) {
+                    Menu {
+                        Button("Logout") {
+                            state = .loggedOut
+                        }
+
+                        Button("Reset") {
+                            state = .resettingPassword
+                        }
+                    } label: {
+                        Image(systemName: "ellipsis.circle")
+                    }
+                }
+            }
+        }
+        .sheet(isPresented: $showAddSheet) {
+            AddPasswordView(vaultViewModel: vaultViewModel)
         }
     }
 
@@ -146,6 +177,119 @@ struct ContentView: View {
             buttonTitle: buttonText,
             action: handleLogin
         )
+    }
+
+    private var emptyStateView: some View {
+        VStack(spacing: 20) {
+            Image(systemName: "lock.shield")
+                .font(.system(size: 60))
+            Text("No passwords yet")
+                .font(.title2)
+            Text("Tap + to add your first password")
+        }
+    }
+
+    private var passwordListView: some View {
+        List {
+            ForEach(vaultViewModel.entries) { entry in
+                PasswordRowView(entry: entry)
+            }
+            .listRowBackground(Color(.lightGray))
+        }
+        .scrollContentBackground(.hidden)
+        .background(Color(.darkGray))
+
+    }
+}
+
+struct PasswordRowView: View {
+    let entry: PasswordEntryWrapper
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(entry.title)
+            Text(entry.username)
+        }
+    }
+}
+
+struct AddPasswordView: View {
+    @Environment(\.dismiss) var dismiss
+    @ObservedObject var vaultViewModel: VaultViewModel
+
+    @State private var title = ""
+    @State private var username = ""
+    @State private var password = ""
+    @State private var notes = ""
+
+    @State private var showAlert = false
+    @State private var alertMessage = ""
+
+    var body: some View {
+        NavigationView {
+            Form {
+                Section {
+                    TextField("Title", text: $title)
+                    TextField("Username/email", text: $username)
+                    SecureField("Password", text: $password)
+                } header: {
+                    Text("Entry details")
+                        .foregroundColor(.black)
+                }
+                .listRowBackground(Color(.lightGray))
+
+                Section {
+                    TextEditor(text: $notes)
+                        .frame(height: 100)
+                } header: {
+                    Text("Notes (optional)")
+                        .foregroundColor(.black)
+                }
+                .listRowBackground(Color(.lightGray))
+            }
+            .navigationTitle("Add entry")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbarColorScheme(.light, for: .navigationBar)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                }
+
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Save") {
+                        saveEntry()
+                    }
+                    .disabled(!isValid)
+                }
+            }
+            .alert(alertMessage, isPresented: $showAlert) {
+                Button("OK") {}
+            }
+        }
+        .scrollContentBackground(.hidden)
+        .background(Color(.darkGray))
+    }
+
+    private var isValid: Bool {
+        !title.isEmpty && !username.isEmpty && !password.isEmpty
+    }
+
+    private func saveEntry() {
+        let notesValue = notes.isEmpty ? nil : notes
+
+        if vaultViewModel.addEntry(
+            title: title,
+            username: username,
+            password: password,
+            notes: notesValue)
+        {
+            dismiss()
+        } else {
+            alertMessage = "Failed to save password"
+            showAlert = true
+        }
     }
 }
 
