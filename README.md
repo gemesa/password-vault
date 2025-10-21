@@ -1,11 +1,11 @@
 # password-vault
 
-Simple iOS and macOS password vault.
+Simple iOS and macOS password vault with components in both Swift and Objective-C to gain a better understanding of both languages.
 
 ## Features
 
-- Apple Keychain integration for managing the vault password
-- Basic vault password validation
+- Apple Keychain integration for managing the vault password (Swift)
+- Basic vault password validation (Objective-C)
 
 ## TODO
 
