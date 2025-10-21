@@ -69,6 +69,8 @@ $ swiftlint --strict password-vault/
 $ find password-vault/ -name "*.m" -o -name "*.h" | xargs clang-format -i
 ```
 
+Alternatively, use `Editor` --> `Structure` --> `Format File with 'clang-format'` or `Ctrl + Shift + I`.
+
 ### Lint Objective-C
 
 ```
