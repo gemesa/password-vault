@@ -11,6 +11,7 @@ Simple iOS and macOS password vault with components in both Swift and Objective-
 ## TODO
 
 - Delete password functionality (Objective-C)
+- Encrypt the vault storage file at rest (Objective-C)
 
 ## Requirements
 
