@@ -71,7 +71,7 @@ $ find password-vault/ -name "*.m" -o -name "*.h" | xargs clang-format -i
 
 Alternatively, use `Editor` --> `Structure` --> `Format File with 'clang-format'` or `Ctrl + Shift + I`.
 
-### Lint Objective-C
+### Analyze Objective-C
 
 ```
 $ xcodebuild analyze -scheme password-vault -destination 'platform=iOS Simulator,name=iPhone 17' -quiet GCC_TREAT_WARNINGS_AS_ERRORS=YES
