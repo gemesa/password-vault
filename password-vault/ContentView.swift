@@ -155,16 +155,17 @@ struct ContentView: View {
             VStack(spacing: 20) {
                 Text(title)
                     .font(.title2)
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
 
                 SecureField("Vault password", text: $password)
-                    .frame(maxWidth: 300)
-                    .textFieldStyle(.roundedBorder)
+                    .frame(maxWidth: 250, maxHeight: 26)
+                    .background(Color(.lightGray))
+                    .cornerRadius(6)
 
                 Button(buttonTitle, action: action)
                     .buttonStyle(.bordered)
-                    .tint(.mint)
                     .disabled(password.isEmpty)
+                    .tint(Color(.black))
             }
         }
         .alert(alertMessage, isPresented: $showAlert) {
