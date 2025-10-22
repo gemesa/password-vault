@@ -120,7 +120,7 @@ struct ContentView: View {
                             state = .loggedOut
                         }
 
-                        Button("Reset") {
+                        Button("Reset password") {
                             state = .resettingPassword
                         }
                     } label: {
