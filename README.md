@@ -25,6 +25,7 @@ Simple iOS and macOS password vault with components in both Swift and Objective-
   <img src="images/main-view-empty.png" width="400" />
   <img src="images/main-view-sheet.png" width="400" />
   <img src="images/main-view-non-empty.png" width="400" />
+  <img src="images/main-view-non-empty-edit.png" width="400" />
   <img src="images/main-view-non-empty-delete.png" width="400" />
 </p>
 
