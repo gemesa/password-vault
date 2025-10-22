@@ -58,4 +58,24 @@ class VaultViewModel: ObservableObject {
         }
     }
 
+    func updateEntry(
+        _ wrapper: PasswordEntryWrapper, title: String, username: String, password: String,
+        notes: String?
+    ) -> Bool {
+        let updatedEntry = PasswordEntry(
+            title: title,
+            username: username,
+            password: password,
+            notes: notes
+        )
+
+        let result = vaultStorageManager.update(updatedEntry)
+        if result == .success {
+            if let index = entries.firstIndex(where: { $0.id == wrapper.id }) {
+                entries[index] = PasswordEntryWrapper(entry: updatedEntry)
+            }
+            return true
+        }
+        return false
+    }
 }
