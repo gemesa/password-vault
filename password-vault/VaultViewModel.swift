@@ -51,4 +51,11 @@ class VaultViewModel: ObservableObject {
         return false
     }
 
+    func deleteEntries(at offsets: IndexSet) {
+        for index in offsets {
+            let wrapper = entries[index]
+            _ = deleteEntry(wrapper)
+        }
+    }
+
 }

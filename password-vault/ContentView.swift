@@ -204,6 +204,7 @@ struct ContentView: View {
             ForEach(vaultViewModel.entries) { entry in
                 PasswordRowView(entry: entry)
             }
+            .onDelete(perform: vaultViewModel.deleteEntries)
             .listRowBackground(Color(.lightGray))
         }
         .scrollContentBackground(.hidden)
