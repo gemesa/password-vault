@@ -107,6 +107,7 @@ struct ContentView: View {
 
             }
             .navigationTitle("Vault")
+            .toolbarColorScheme(.light, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
