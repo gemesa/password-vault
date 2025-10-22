@@ -23,6 +23,7 @@ struct ContentView: View {
     @State private var showAlert = false
     @State private var alertMessage = ""
     @State private var password = ""
+    @State private var showResetConfirmation = false
 
     var buttonText: String {
         hasPassword ? "Unlock" : "Set password"
@@ -121,12 +122,20 @@ struct ContentView: View {
                         }
 
                         Button("Reset password") {
-                            state = .resettingPassword
+                            showResetConfirmation = true
                         }
                     } label: {
                         Image(systemName: "ellipsis.circle")
                     }
                 }
+            }
+            .alert("Reset Password", isPresented: $showResetConfirmation) {
+                Button("Cancel", role: .cancel) {}
+                Button("Reset", role: .destructive) {
+                    state = .resettingPassword
+                }
+            } message: {
+                Text("Are you sure you want to reset your vault password?")
             }
         }
         .sheet(isPresented: $showAddSheet) {
