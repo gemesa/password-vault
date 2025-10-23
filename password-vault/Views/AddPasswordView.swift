@@ -4,6 +4,7 @@ import SwiftUI
 struct AddPasswordView: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject var vaultViewModel: VaultViewModel
+    let vaultPassword: String
 
     @State private var title = ""
     @State private var username = ""
@@ -72,7 +73,7 @@ struct AddPasswordView: View {
             username: username,
             password: password,
             notes: notesValue,
-            vaultPassword: password)
+            vaultPassword: vaultPassword)
         {
             dismiss()
         } else {

@@ -62,7 +62,6 @@ struct ContentView: View {
     }
 
     private func handleLogin() {
-        defer { password = "" }
         if hasPassword {
             guard VaultPasswordManager.verifyVaultPassword(password) else {
                 showAlert(.wrongPassword)
@@ -134,6 +133,7 @@ struct ContentView: View {
                 ToolbarItem(placement: .topBarLeading) {
                     Menu {
                         Button("Logout") {
+                            password = ""
                             state = .loggedOut
                         }
 
@@ -155,7 +155,7 @@ struct ContentView: View {
             }
         }
         .sheet(isPresented: $showAddSheet) {
-            AddPasswordView(vaultViewModel: vaultViewModel)
+            AddPasswordView(vaultViewModel: vaultViewModel, vaultPassword: password)
         }
         .sheet(item: $entryToEdit) { entry in
             EditPasswordView(vaultViewModel: vaultViewModel, entryToEdit: entry)
