@@ -19,9 +19,10 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (VaultStorageResult)loadVault {
+- (VaultStorageResult)loadVaultWithPassword:(NSString *)password {
     NSArray<PasswordEntry *> *loadedEntries = nil;
-    VaultStorageResult result = [self.storage loadEntries:&loadedEntries];
+    VaultStorageResult result = [self.storage loadEntries:&loadedEntries
+                                             withPassword:password];
 
     if (result == VaultStorageResultSuccess) {
         self.entries = [loadedEntries mutableCopy];
@@ -34,16 +35,18 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.entries copy];
 }
 
-- (VaultStorageResult)addEntry:(PasswordEntry *)entry {
+- (VaultStorageResult)addEntry:(PasswordEntry *)entry
+                  withPassword:(NSString *)password {
     [self.entries addObject:entry];
-    return [self saveVault];
+    return [self saveVaultWithPassword:password];
 }
 
-- (VaultStorageResult)saveVault {
-    return [self.storage saveEntries:self.entries];
+- (VaultStorageResult)saveVaultWithPassword:(NSString *)password {
+    return [self.storage saveEntries:self.entries withPassword:password];
 }
 
-- (VaultStorageResult)updateEntry:(PasswordEntry *)entry {
+- (VaultStorageResult)updateEntry:(PasswordEntry *)entry
+                     withPassword:(NSString *)password {
     NSUInteger index = [self.entries
         indexOfObjectPassingTest:^BOOL(PasswordEntry *_Nonnull obj,
                                        NSUInteger idx, BOOL *_Nonnull stop) {
@@ -52,15 +55,16 @@ NS_ASSUME_NONNULL_BEGIN
 
     if (index != NSNotFound) {
         self.entries[index] = entry;
-        return [self saveVault];
+        return [self saveVaultWithPassword:password];
     }
 
     return VaultStorageResultSuccess;
 }
 
-- (VaultStorageResult)deleteEntry:(PasswordEntry *)entry {
+- (VaultStorageResult)deleteEntry:(PasswordEntry *)entry
+                     withPassword:(NSString *)password {
     [self.entries removeObject:entry];
-    return [self saveVault];
+    return [self saveVaultWithPassword:password];
 }
 
 @end

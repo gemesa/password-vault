@@ -9,14 +9,18 @@ typedef NS_ENUM(NSInteger, VaultStorageResult) {
     VaultStorageResultFailedToWrite,
     VaultStorageResultFailedToSerialize,
     VaultStorageResultFailedToDeserialize,
-    VaultStorageResultFailedToDelete
+    VaultStorageResultFailedToDelete,
+    VaultStorageResultFailedToEncrypt,
+    VaultStorageResultFailedToDecrypt
 };
 
 @interface VaultStorage : NSObject
 
-- (VaultStorageResult)saveEntries:(NSArray<PasswordEntry *> *)entries;
-- (VaultStorageResult)loadEntries:
-    (NSArray<PasswordEntry *> *_Nullable *_Nullable)entries;
+- (VaultStorageResult)saveEntries:(NSArray<PasswordEntry *> *)entries
+                     withPassword:(NSString *)password;
+- (VaultStorageResult)
+     loadEntries:(NSArray<PasswordEntry *> *_Nullable *_Nullable)entries
+    withPassword:(NSString *)password;
 - (BOOL)vaultFileExists;
 - (VaultStorageResult)deleteVaultFile;
 

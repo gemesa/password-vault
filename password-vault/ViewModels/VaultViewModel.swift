@@ -20,8 +20,8 @@ class VaultViewModel: ObservableObject {
         self.vaultStorageManager = VaultStorageManager()
     }
 
-    func loadVault() -> Bool {
-        let result = vaultStorageManager.loadVault()
+    func loadVault(vaultPassword: String) -> Bool {
+        let result = vaultStorageManager.loadVault(withPassword: vaultPassword)
         if result == .success {
             entries = vaultStorageManager.allEntries().map { PasswordEntryWrapper(entry: $0) }
             return true
@@ -29,10 +29,12 @@ class VaultViewModel: ObservableObject {
         return false
     }
 
-    func addEntry(title: String, username: String, password: String, notes: String?) -> Bool {
+    func addEntry(
+        title: String, username: String, password: String, notes: String?, vaultPassword: String
+    ) -> Bool {
         let entry = PasswordEntry(
             title: title, username: username, password: password, notes: notes)
-        let result = vaultStorageManager.add(entry)
+        let result = vaultStorageManager.add(entry, withPassword: vaultPassword)
         if result == .success {
             entries.append(PasswordEntryWrapper(entry: entry))
             return true
@@ -40,8 +42,8 @@ class VaultViewModel: ObservableObject {
         return false
     }
 
-    func deleteEntry(_ wrapper: PasswordEntryWrapper) -> Bool {
-        let result = vaultStorageManager.delete(wrapper.entry)
+    func deleteEntry(_ wrapper: PasswordEntryWrapper, vaultPassword: String) -> Bool {
+        let result = vaultStorageManager.delete(wrapper.entry, withPassword: vaultPassword)
         if result == .success {
             if let index = entries.firstIndex(where: { $0.id == wrapper.id }) {
                 entries.remove(at: index)
@@ -51,16 +53,16 @@ class VaultViewModel: ObservableObject {
         return false
     }
 
-    func deleteEntries(at offsets: IndexSet) {
+    func deleteEntries(at offsets: IndexSet, vaultPassword: String) {
         for index in offsets {
             let wrapper = entries[index]
-            _ = deleteEntry(wrapper)
+            _ = deleteEntry(wrapper, vaultPassword: vaultPassword)
         }
     }
 
     func updateEntry(
         _ wrapper: PasswordEntryWrapper, title: String, username: String, password: String,
-        notes: String?
+        notes: String?, vaultPassword: String
     ) -> Bool {
         let updatedEntry = PasswordEntry(
             title: title,
@@ -69,7 +71,7 @@ class VaultViewModel: ObservableObject {
             notes: notes
         )
 
-        let result = vaultStorageManager.update(updatedEntry)
+        let result = vaultStorageManager.update(updatedEntry, withPassword: vaultPassword)
         if result == .success {
             if let index = entries.firstIndex(where: { $0.id == wrapper.id }) {
                 entries[index] = PasswordEntryWrapper(entry: updatedEntry)

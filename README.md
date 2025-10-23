@@ -7,10 +7,7 @@ Simple iOS and macOS password vault with components in both Swift and Objective-
 - Apple Keychain integration for managing the vault password (Swift)
 - Basic vault password validation (Objective-C)
 - Add/update/delete password functionality for stored password management (Objective-C)
-
-## TODO
-
-- Encrypt the vault storage file at rest (Objective-C)
+- File encryption: the vault storage is encrypted at rest (Swift)
 
 ## Requirements
 

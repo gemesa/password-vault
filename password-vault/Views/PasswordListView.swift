@@ -4,6 +4,7 @@ import SwiftUI
 struct PasswordListView: View {
     @ObservedObject var vaultViewModel: VaultViewModel
     @Binding var entryToEdit: PasswordEntryWrapper?
+    let vaultPassword: String
 
     var body: some View {
         List {
@@ -13,7 +14,9 @@ struct PasswordListView: View {
                         entryToEdit = entry
                     }
             }
-            .onDelete(perform: vaultViewModel.deleteEntries)
+            .onDelete { offsets in
+                vaultViewModel.deleteEntries(at: offsets, vaultPassword: vaultPassword)
+            }
             .listRowBackground(Color(.lightGray))
         }
         .scrollContentBackground(.hidden)

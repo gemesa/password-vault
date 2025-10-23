@@ -69,7 +69,7 @@ struct ContentView: View {
                 return
             }
 
-            guard vaultViewModel.loadVault() else {
+            guard vaultViewModel.loadVault(vaultPassword: password) else {
                 showAlert(.loadVaultError)
                 return
             }
@@ -116,7 +116,8 @@ struct ContentView: View {
                 } else {
                     PasswordListView(
                         vaultViewModel: vaultViewModel,
-                        entryToEdit: $entryToEdit)
+                        entryToEdit: $entryToEdit,
+                        vaultPassword: password)
                 }
 
             }

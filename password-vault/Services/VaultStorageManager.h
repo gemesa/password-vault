@@ -7,11 +7,14 @@ NS_ASSUME_NONNULL_BEGIN
 @interface VaultStorageManager : NSObject
 
 - (NSArray<PasswordEntry *> *)allEntries;
-- (VaultStorageResult)addEntry:(PasswordEntry *)entry;
-- (VaultStorageResult)updateEntry:(PasswordEntry *)entry;
-- (VaultStorageResult)deleteEntry:(PasswordEntry *)entry;
-- (VaultStorageResult)loadVault;
-- (VaultStorageResult)saveVault;
+- (VaultStorageResult)addEntry:(PasswordEntry *)entry
+                  withPassword:(NSString *)password;
+- (VaultStorageResult)updateEntry:(PasswordEntry *)entry
+                     withPassword:(NSString *)password;
+- (VaultStorageResult)deleteEntry:(PasswordEntry *)entry
+                     withPassword:(NSString *)password;
+- (VaultStorageResult)loadVaultWithPassword:(NSString *)password;
+- (VaultStorageResult)saveVaultWithPassword:(NSString *)password;
 
 @end
 

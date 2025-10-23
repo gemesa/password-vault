@@ -71,7 +71,8 @@ struct AddPasswordView: View {
             title: title,
             username: username,
             password: password,
-            notes: notesValue)
+            notes: notesValue,
+            vaultPassword: password)
         {
             dismiss()
         } else {

@@ -1,4 +1,5 @@
 #import "VaultStorage.h"
+#import "password_vault-Swift.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,7 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
     return [[NSFileManager defaultManager] fileExistsAtPath:path];
 }
 
-- (VaultStorageResult)saveEntries:(NSArray<PasswordEntry *> *)entries {
+- (VaultStorageResult)saveEntries:(NSArray<PasswordEntry *> *)entries
+                     withPassword:(NSString *)password {
     NSString *path = [self vaultFilePath];
 
     NSError *error = nil;
@@ -29,7 +31,15 @@ NS_ASSUME_NONNULL_BEGIN
         return VaultStorageResultFailedToSerialize;
     }
 
-    BOOL success = [data writeToFile:path atomically:YES];
+    NSData *encryptedData = [VaultEncryption encryptWithData:data
+                                                    password:password
+                                                       error:&error];
+    if (!encryptedData) {
+        NSLog(@"Failed to encrypt data: %@", error.localizedDescription);
+        return VaultStorageResultFailedToEncrypt;
+    }
+
+    BOOL success = [encryptedData writeToFile:path atomically:YES];
 
     if (!success) {
         NSLog(@"Failed to write the vault file to path: %@", path);
@@ -39,8 +49,9 @@ NS_ASSUME_NONNULL_BEGIN
     return VaultStorageResultSuccess;
 }
 
-- (VaultStorageResult)loadEntries:
-    (NSArray<PasswordEntry *> *_Nullable *_Nullable)entries {
+- (VaultStorageResult)
+     loadEntries:(NSArray<PasswordEntry *> *_Nullable *_Nullable)entries
+    withPassword:(NSString *)password {
     NSString *path = [self vaultFilePath];
 
     if (![self vaultFileExists]) {
@@ -50,17 +61,24 @@ NS_ASSUME_NONNULL_BEGIN
         return VaultStorageResultSuccess;
     }
 
-    NSData *data = [NSData dataWithContentsOfFile:path];
+    NSData *encryptedData = [NSData dataWithContentsOfFile:path];
 
-    if (!data) {
+    if (!encryptedData) {
         NSLog(@"Failed to read vault file from path: %@", path);
         return VaultStorageResultFailedToRead;
     }
 
+    NSError *error = nil;
+    NSData *data = [VaultEncryption decryptWithEncryptedData:encryptedData
+                                                    password:password
+                                                       error:&error];
+    if (!data) {
+        NSLog(@"Failed to decrypt data: %@", error.localizedDescription);
+        return VaultStorageResultFailedToDecrypt;
+    }
+
     NSSet *classes =
         [NSSet setWithObjects:[NSArray class], [PasswordEntry class], nil];
-
-    NSError *error = nil;
 
     NSArray<PasswordEntry *> *loadedEntries =
         [NSKeyedUnarchiver unarchivedObjectOfClasses:classes
