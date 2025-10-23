@@ -29,6 +29,11 @@ class VaultViewModel: ObservableObject {
         return false
     }
 
+    func saveVault(vaultPassword: String) -> Bool {
+        let result = vaultStorageManager.saveVault(withPassword: vaultPassword)
+        return result == .success
+    }
+
     func addEntry(
         title: String, username: String, password: String, notes: String?, vaultPassword: String
     ) -> Bool {

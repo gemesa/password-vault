@@ -15,6 +15,7 @@ struct ContentView: View {
         case resetError = "Something went wrong while resetting the vault password"
         case setError = "Something went wrong while setting the vault password"
         case loadVaultError = "Failed to load vault"
+        case saveVaultError = "Failed to save vault after setting a new password"
     }
 
     @StateObject private var vaultViewModel = VaultViewModel()
@@ -88,7 +89,6 @@ struct ContentView: View {
     }
 
     private func handleReset() {
-        defer { password = "" }
         guard PasswordValidator.isPasswordValid(password) else {
             showAlert(.weakPassword)
             return
@@ -101,6 +101,11 @@ struct ContentView: View {
             showAlert(.resetError)
             return
         }
+        guard vaultViewModel.saveVault(vaultPassword: password) else {
+            showAlert(.saveVaultError)
+            return
+        }
+        password = ""
         state = .loggedOut
     }
 
@@ -148,6 +153,7 @@ struct ContentView: View {
             .alert("Reset password", isPresented: $showResetConfirmation) {
                 Button("Cancel", role: .cancel) {}
                 Button("Reset", role: .destructive) {
+                    password = ""
                     state = .resettingPassword
                 }
             } message: {
