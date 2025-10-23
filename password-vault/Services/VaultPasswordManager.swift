@@ -2,6 +2,31 @@ import CryptoKit
 import Foundation
 
 struct VaultPasswordManager {
+    struct VaultPasswordBackup {
+        let hash: Data
+        let salt: Data
+    }
+
+    static func backupVaultPassword() -> VaultPasswordBackup? {
+        guard let hash = KeychainManager.loadData(account: "vaultPasswordHash"),
+            let salt = KeychainManager.loadData(account: "vaultPasswordSalt")
+        else {
+            return nil
+        }
+        return VaultPasswordBackup(hash: hash, salt: salt)
+    }
+
+    static func restoreVaultPassword(from backup: VaultPasswordBackup) -> Bool {
+        guard KeychainManager.save(backup.hash, account: "vaultPasswordHash") else {
+            return false
+        }
+        guard KeychainManager.save(backup.salt, account: "vaultPasswordSalt") else {
+            _ = KeychainManager.delete(account: "vaultPasswordHash")
+            return false
+        }
+        return true
+    }
+
     static func setVaultPassword(_ password: String) -> Bool {
         let salt = Data((0..<16).map { _ in UInt8.random(in: 0...255) })
 

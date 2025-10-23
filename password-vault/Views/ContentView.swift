@@ -93,15 +93,25 @@ struct ContentView: View {
             showAlert(.weakPassword)
             return
         }
+
+        let backup = VaultPasswordManager.backupVaultPassword()
+
         guard VaultPasswordManager.deleteVaultPassword() else {
             showAlert(.resetError)
             return
         }
         guard VaultPasswordManager.setVaultPassword(password) else {
+            if let backup = backup {
+                _ = VaultPasswordManager.restoreVaultPassword(from: backup)
+            }
             showAlert(.resetError)
             return
         }
         guard vaultViewModel.saveVault(vaultPassword: password) else {
+            _ = VaultPasswordManager.deleteVaultPassword()
+            if let backup = backup {
+                _ = VaultPasswordManager.restoreVaultPassword(from: backup)
+            }
             showAlert(.saveVaultError)
             return
         }
