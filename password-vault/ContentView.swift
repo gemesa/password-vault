@@ -39,9 +39,20 @@ struct ContentView: View {
         case .loggedIn:
             mainView
         case .resettingPassword:
-            resetView
+            ResetView(
+                action: handleReset,
+                password: $password,
+                showAlert: $showAlert,
+                alertMessage: $alertMessage
+            )
         default:
-            loginView
+            LoginView(
+                buttonTitle: buttonText,
+                action: handleLogin,
+                password: $password,
+                showAlert: $showAlert,
+                alertMessage: $alertMessage
+            )
         }
     }
 
@@ -148,52 +159,6 @@ struct ContentView: View {
         .sheet(item: $entryToEdit) { entry in
             EditPasswordView(vaultViewModel: vaultViewModel, entryToEdit: entry)
         }
-    }
-
-    @ViewBuilder
-    private func passwordEntryView(
-        title: String,
-        buttonTitle: String,
-        action: @escaping () -> Void
-    ) -> some View {
-        ZStack {
-            Color(.darkGray)
-                .ignoresSafeArea()
-            VStack(spacing: 20) {
-                Text(title)
-                    .font(.title2)
-                    .foregroundColor(.black)
-
-                SecureField("Vault password", text: $password)
-                    .frame(maxWidth: 250, maxHeight: 26)
-                    .background(Color(.lightGray))
-                    .cornerRadius(6)
-
-                Button(buttonTitle, action: action)
-                    .buttonStyle(.bordered)
-                    .disabled(password.isEmpty)
-                    .tint(Color(.black))
-            }
-        }
-        .alert(alertMessage, isPresented: $showAlert) {
-            Button("OK") {}
-        }
-    }
-
-    private var resetView: some View {
-        passwordEntryView(
-            title: "Enter new password",
-            buttonTitle: "Set new password",
-            action: handleReset
-        )
-    }
-
-    private var loginView: some View {
-        passwordEntryView(
-            title: "Enter password",
-            buttonTitle: buttonText,
-            action: handleLogin
-        )
     }
 }
 
