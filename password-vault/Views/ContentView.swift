@@ -144,7 +144,7 @@ struct ContentView: View {
                     }
                 }
             }
-            .alert("Reset Password", isPresented: $showResetConfirmation) {
+            .alert("Reset password", isPresented: $showResetConfirmation) {
                 Button("Cancel", role: .cancel) {}
                 Button("Reset", role: .destructive) {
                     state = .resettingPassword
