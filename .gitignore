@@ -2,6 +2,7 @@ __pycache__/
 build/
 *.log
 .DS_Store
+decrypt
 
 # O-MVLL
 cfg.py

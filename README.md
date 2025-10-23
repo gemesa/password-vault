@@ -78,3 +78,31 @@ Alternatively, use `Editor` --> `Structure` --> `Format File with 'clang-format'
 ```
 $ xcodebuild analyze -scheme password-vault -destination 'platform=iOS Simulator,name=iPhone 17' -quiet GCC_TREAT_WARNINGS_AS_ERRORS=YES
 ```
+
+### Decryptor
+
+A standalone command-line tool for decrypting vault files. Use this for:
+
+- Debugging vault encryption issues
+- Emergency access when the main app is unavailable
+- Verifying vault integrity
+
+```
+$ cd decryptor
+$ swiftc main.swift ../password-vault/Services/VaultEncryption.swift PasswordEntry.swift -o decrypt
+$ ./decrypt
+Usage: ./decrypt <vault_file_path> <password>
+$ ./decrypt $(find ~/Library/Developer/CoreSimulator/Devices -name "vault.dat") secure1
+Decrypted 518 bytes
+
+Decrypted 1 password entries:
+
+[1]
+PasswordEntry:
+  ID: 78B14FBD-2179-470A-8CD7-476EC5FD33D8
+  Title: GitHub
+  Username: GH_username
+  Password: password1
+  Notes: none
+--------------------------------------------------
+```
