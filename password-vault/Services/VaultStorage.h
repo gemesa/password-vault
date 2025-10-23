@@ -11,7 +11,8 @@ typedef NS_ENUM(NSInteger, VaultStorageResult) {
     VaultStorageResultFailedToDeserialize,
     VaultStorageResultFailedToDelete,
     VaultStorageResultFailedToEncrypt,
-    VaultStorageResultFailedToDecrypt
+    VaultStorageResultFailedToDecrypt,
+    VaultStorageResultFailedToUpdate
 };
 
 @interface VaultStorage : NSObject

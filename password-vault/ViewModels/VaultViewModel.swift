@@ -70,12 +70,12 @@ class VaultViewModel: ObservableObject {
         notes: String?, vaultPassword: String
     ) -> Bool {
         let updatedEntry = PasswordEntry(
+            identifier: wrapper.id,
             title: title,
             username: username,
             password: password,
             notes: notes
         )
-
         let result = vaultStorageManager.update(updatedEntry, withPassword: vaultPassword)
         if result == .success {
             if let index = entries.firstIndex(where: { $0.id == wrapper.id }) {

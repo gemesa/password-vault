@@ -15,6 +15,12 @@ NS_ASSUME_NONNULL_BEGIN
                      password:(NSString *)password
                         notes:(nullable NSString *)notes;
 
+- (instancetype)initWithIdentifier:(NSUUID *)identifier
+                             title:(NSString *)title
+                          username:(NSString *)username
+                          password:(NSString *)password
+                             notes:(nullable NSString *)notes;
+
 @end
 
 NS_ASSUME_NONNULL_END

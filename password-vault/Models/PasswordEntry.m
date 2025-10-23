@@ -18,6 +18,21 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithIdentifier:(NSUUID *)identifier
+                             title:(NSString *)title
+                          username:(NSString *)username
+                          password:(NSString *)password
+                             notes:(nullable NSString *)notes {
+    if (self = [super init]) {
+        _identifier = identifier;
+        _title = title;
+        _username = username;
+        _password = password;
+        _notes = notes;
+    }
+    return self;
+}
+
 + (BOOL)supportsSecureCoding {
     return YES;
 }

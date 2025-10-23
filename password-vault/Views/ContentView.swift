@@ -174,7 +174,8 @@ struct ContentView: View {
             AddPasswordView(vaultViewModel: vaultViewModel, vaultPassword: password)
         }
         .sheet(item: $entryToEdit) { entry in
-            EditPasswordView(vaultViewModel: vaultViewModel, entryToEdit: entry)
+            EditPasswordView(
+                vaultViewModel: vaultViewModel, entryToEdit: entry, vaultPassword: password)
         }
     }
 }

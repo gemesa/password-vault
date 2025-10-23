@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
         return [self saveVaultWithPassword:password];
     }
 
-    return VaultStorageResultSuccess;
+    return VaultStorageResultFailedToUpdate;
 }
 
 - (VaultStorageResult)deleteEntry:(PasswordEntry *)entry

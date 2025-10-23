@@ -5,6 +5,7 @@ struct EditPasswordView: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject var vaultViewModel: VaultViewModel
     let entryToEdit: PasswordEntryWrapper
+    let vaultPassword: String
 
     @State private var title = ""
     @State private var username = ""
@@ -14,9 +15,10 @@ struct EditPasswordView: View {
     @State private var showAlert = false
     @State private var alertMessage = ""
 
-    init(vaultViewModel: VaultViewModel, entryToEdit: PasswordEntryWrapper) {
+    init(vaultViewModel: VaultViewModel, entryToEdit: PasswordEntryWrapper, vaultPassword: String) {
         self.vaultViewModel = vaultViewModel
         self.entryToEdit = entryToEdit
+        self.vaultPassword = vaultPassword
 
         _title = State(initialValue: entryToEdit.title)
         _username = State(initialValue: entryToEdit.username)
@@ -83,7 +85,8 @@ struct EditPasswordView: View {
             title: title,
             username: username,
             password: password,
-            notes: notesValue, vaultPassword: password)
+            notes: notesValue,
+            vaultPassword: vaultPassword)
         {
             dismiss()
         } else {
