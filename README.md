@@ -8,6 +8,7 @@ Simple iOS and macOS password vault with components in both Swift and Objective-
 - Password validation: vault password strength verification (Objective-C)
 - CRUD: create, read, update and delete password entries (Objective-C)
 - Encrypted storage: AES-256 encryption for vault files at rest (Swift)
+- Clean and simple UI (SwiftUI)
 
 ## Requirements
 
